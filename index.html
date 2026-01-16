@@ -3,31 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FΣ SINGULARITY - NOBEL CENTER 2026</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+    <title>FΣ SINGULARITY - THE NOBEL FRONTIER</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
 </head>
 <body>
-    <div class="supreme-container">
-        <div class="header-vanguard">
-            <div class="logo">FΣ SINGULARITY</div>
-            <div id="balance-eth" class="neon-text">MASTER: 0.05 ETH</div>
+    <div id="isoa-overlay"></div>
+    <header>
+        <div class="logo">FΣ SINGULARITY</div>
+        <div class="status-bar">ISOA-57: ACTIVE | SSCL CORE: RUNNING</div>
+    </header>
+
+    <main>
+        <div id="canvas-container">
+            <div class="core-energy"></div>
         </div>
-        
-        <div class="main-core">
-            <div class="control-panel">
-                <h3>CHIẾN LƯỢC SSCL</h3>
-                <div id="pulse">ISOA-57 | CHỜ LỆNH...</div>
-                <button class="gold-btn" onclick="startSystem()">KÍCH HOẠT HỆ THỐNG</button>
-                <button class="gold-btn" onclick="buyLandReal()">MUA ĐẤT (0.01 ETH)</button>
-                <div id="market-news">Dữ liệu Nobel 2026: Sẵn sàng.</div>
-            </div>
+
+        <section class="dashboard">
+            <h1>ĐỊNH LUẬT CHU KỲ MẦM SỐNG (SSCL)</h1>
+            <p class="tagline">Kiến tạo tương lai từ Lực Kì Dị của Trường (FΣ - Truong)</p>
             
-            <div class="visual-engine">
-                <div id="hologram-target" class="hologram-land"></div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span>LỢI NHUẬN TIỀM NĂNG</span>
+                    <div id="profit-counter">0.000000 ETH</div>
+                </div>
+                <div class="stat-card">
+                    <span>ĐỊA CHỈ MASTER</span>
+                    <div class="wallet-address">0xcE9...0B88</div>
+                </div>
             </div>
-        </div>
-    </div>
+
+            <div class="action-zone">
+                <button onclick="connectAndBuy()" class="btn-primary">KÍCH HOẠT DÒNG TIỀN (0.01 ETH)</button>
+                <p class="security-note">🛡️ Protected by ISOA-V2026 Active Defense</p>
+            </div>
+        </section>
+    </main>
+
     <script src="script.js"></script>
 </body>
 </html>
