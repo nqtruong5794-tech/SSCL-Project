@@ -1,12 +1,89 @@
-body { margin: 0; background: #000; color: #bc80ff; font-family: "Arial Black", sans-serif; height: 100vh; overflow: hidden; }
-.supreme-container { height: 100%; display: flex; flex-direction: column; background: radial-gradient(circle, #1a0033 0%, #000 100%); }
-.header-vanguard { display: flex; justify-content: space-between; padding: 15px; border-bottom: 2px solid #5d00b3; background: rgba(0,0,0,0.8); }
-.logo { font-size: 1.5rem; letter-spacing: 2px; text-shadow: 0 0 10px #bc80ff; }
-.main-core { display: flex; flex: 1; }
-.control-panel { width: 300px; padding: 25px; background: rgba(26,0,51,0.9); border-right: 2px solid #5d00b3; display: flex; flex-direction: column; gap: 20px; }
-.visual-engine { flex: 1; display: flex; align-items: center; justify-content: center; perspective: 1000px; background-image: radial-gradient(#2a0052 1px, transparent 1px); background-size: 30px 30px; }
-.hologram-land { width: 300px; height: 300px; position: relative; transform-style: preserve-3d; animation: rotate 20s linear infinite; }
-@keyframes rotate { from { transform: rotateY(0deg) rotateX(20deg); } to { transform: rotateY(360deg) rotateX(20deg); } }
-.gold-btn { padding: 18px; background: linear-gradient(45deg, #00ffcc, #bc80ff); color: #000; border: none; font-weight: bold; cursor: pointer; border-radius: 4px; text-transform: uppercase; transition: 0.3s; }
-.gold-btn:hover { transform: scale(1.05); box-shadow: 0 0 20px #00ffcc; }
-.neon-text { color: #00ffcc; text-shadow: 0 0 10px #00ffcc; }
+:root {
+    --primary: #8a2be2; /* Tím vương giả */
+    --neon: #00f3ff; /* Xanh cực quang */
+    --bg: #050505;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: white;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    overflow: hidden;
+}
+
+header {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(138, 43, 226, 0.3);
+}
+
+.logo {
+    font-weight: bold;
+    letter-spacing: 5px;
+    color: var(--neon);
+    text-shadow: 0 0 10px var(--neon);
+}
+
+.dashboard {
+    text-align: center;
+    margin-top: 50px;
+}
+
+h1 {
+    font-size: 3rem;
+    background: linear-gradient(90deg, #fff, var(--primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid var(--primary);
+    display: inline-block;
+    margin: 10px;
+    min-width: 200px;
+}
+
+#profit-counter {
+    font-size: 1.5rem;
+    color: var(--neon);
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, var(--primary), #4b0082);
+    border: none;
+    color: white;
+    padding: 20px 40px;
+    font-size: 1.2rem;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 0 20px var(--primary);
+    transition: 0.3s;
+    font-weight: bold;
+}
+
+.btn-primary:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 40px var(--neon);
+}
+
+/* Hiệu ứng lõi mầm sống */
+.core-energy {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--neon), var(--primary), transparent);
+    box-shadow: 0 0 100px var(--primary);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.8; }
+}
