@@ -1,5 +1,5 @@
 // Cấu hình địa chỉ nhận tiền của Master Trường
-const masterWallet = "0x539659a293E3094851212879685a2100A176962f"; 
+const masterWallet = "0xcE9caBC82bce143601E0A097fF15A69385610B88"; 
 
 // 1. Tạo hiệu ứng mảnh đất 3D ngay khi tải trang
 const target = document.getElementById('hologram-target');
@@ -49,4 +49,5 @@ async function buyLandReal() {
     } else {
         alert("ISOA-57: KHÔNG TÌM THẤY VÍ SUBWALLET. HÃY CÀI ĐẶT ĐỂ TIẾP TỤC!");
     }
+
 }
