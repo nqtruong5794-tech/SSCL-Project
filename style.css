@@ -4,81 +4,27 @@ body {
     background-image: linear-gradient(90deg, var(--line) 1px, transparent 1px);
     background-size: 30px 100%;
     color: var(--text);
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    margin: 0; padding: 40px 20px;
-    line-height: 1.6;
+    font-family: 'Courier New', Courier, monospace;
+    margin: 0; padding: 20px;
 }
-.container { max-width: 500px; margin: 0 auto; background: white; padding: 40px; box-shadow: 0 0 100px rgba(0,0,0,0.05); }
-.logo-text { letter-spacing: 12px; font-weight: 100; text-transform: uppercase; border-bottom: 2px solid #000; padding-bottom: 10px; text-align: center; }
+.container { max-width: 500px; margin: 0 auto; background: white; padding: 30px; box-shadow: 0 0 50px rgba(0,0,0,0.1); border: 2px solid #000; }
+.logo-text { letter-spacing: 5px; font-weight: 100; text-transform: uppercase; border-bottom: 2px solid #000; text-align: center; }
 .logo-text span { font-weight: 900; }
-.glow-text { font-size: 3.5rem; font-weight: 900; letter-spacing: -3px; text-align: center; margin: 20px 0; }
-.sub-label { font-size: 9px; opacity: 0.5; text-align: center; letter-spacing: 2px; }
-section { border-left: 5px solid #000; padding: 20px; margin-top: 40px; }
-h3 { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 15px; }
-input, textarea { width: 100%; border: none; border-bottom: 1px solid #eee; background: transparent; padding: 12px 0; margin-bottom: 10px; font-size: 13px; outline: none; }
-.btn-main { background: #000; color: #fff; border: none; padding: 18px; width: 100%; letter-spacing: 5px; cursor: pointer; font-weight: bold; }
-.btn-scan { background: var(--accent); color: #fff; border: none; padding: 10px; width: 100%; font-size: 10px; cursor: pointer; margin-bottom: 20px; }
-.btn-trade { background: #000; color: #fff; border: none; padding: 8px 15px; font-size: 10px; cursor: pointer; }
-.rank-item { padding: 15px 0; border-bottom: 1px solid #eee; }
-
-/* Styles cho Bìa Đỏ Kim Cương Độc Bản */
-.land-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 20px; }
-
+.glow-text { font-size: 3rem; font-weight: 900; text-align: center; margin: 10px 0; }
+.sub-label { font-size: 9px; opacity: 0.5; text-align: center; letter-spacing: 1px; }
+section { border: 1px solid #eee; padding: 15px; margin-top: 20px; position: relative; }
+h3 { font-size: 10px; letter-spacing: 2px; background: #000; color: #fff; display: inline-block; padding: 2px 8px; margin-top: -25px; }
+input, textarea { width: 100%; border: 1px solid #eee; background: #fafafa; padding: 10px; margin-bottom: 5px; font-size: 12px; box-sizing: border-box; }
+.btn-main { background: #000; color: #fff; border: none; padding: 15px; width: 100%; cursor: pointer; font-weight: bold; margin-top: 10px; }
+.btn-alt { background: #2ecc71; color: #fff; border: none; padding: 10px; flex: 1; font-size: 10px; cursor: pointer; font-weight: bold; }
+.btn-scan { background: var(--accent); color: #fff; border: none; padding: 8px; width: 100%; font-size: 10px; cursor: pointer; margin-bottom: 10px; }
+.btn-trade { background: #000; color: #fff; border: none; padding: 5px 10px; font-size: 10px; cursor: pointer; }
+.land-grid { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
 .land-card {
-    width: 140px; height: 180px; 
-    border: 1px solid #000; 
-    background: linear-gradient(135deg, #f0f0f0 0%, #ffffff 100%); /* Màu nền gradient sáng */
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    position: relative;
-    overflow: hidden;
-    display: flex; flex-direction: column; justify-content: space-between; align-items: center;
-    padding: 15px;
-    box-sizing: border-box;
-    transition: all 0.3s ease;
-    cursor: pointer;
+    width: 120px; height: 160px; border: 2px solid #000; padding: 10px;
+    background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+    transition: 0.3s; position: relative;
 }
-
-.land-card:hover {
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-    border-color: var(--accent);
-}
-
-.land-card::before { /* Hiệu ứng sọc code */
-    content: '';
-    position: absolute;
-    top: -50%; left: -50%;
-    width: 200%; height: 200%;
-    background: repeating-linear-gradient(
-        45deg,
-        rgba(0,0,0,0.05) 0px,
-        rgba(0,0,0,0.05) 2px,
-        transparent 2px,
-        transparent 10px
-    );
-    animation: shimmer 15s linear infinite; /* Chuyển động lấp lánh */
-    opacity: 0.3;
-}
-
-@keyframes shimmer {
-    0% { transform: rotate(0deg) translateX(0%); }
-    100% { transform: rotate(0deg) translateX(100%); }
-}
-
-.land-id { 
-    font-size: 14px; font-weight: bold; 
-    color: #000; 
-    letter-spacing: 1px;
-    z-index: 1; /* Đảm bảo chữ nằm trên hiệu ứng sọc */
-}
-
-.land-master {
-    font-size: 10px; 
-    opacity: 0.8; 
-    margin-top: 5px;
-    z-index: 1;
-}
-
-.land-qr-placeholder {
-    width: 60px; height: 60px; 
-    background: #000; /* Thay bằng QR
+.land-card:hover { transform: rotate(2deg); box-shadow: 5px 5px 0px #000; }
+.land-id { font-size: 10px; font-weight: 900; }
+.land-qr { width: 60px; height: 60px; }
