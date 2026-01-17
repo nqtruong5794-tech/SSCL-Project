@@ -1,16 +1,109 @@
-.marketplace-pure { margin-top: 30px; border-top: 1px solid #f0f0f0; padding-top: 20px; }
-.trade-grid { display: grid; gap: 10px; margin-top: 15px; }
-.trade-card { 
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 12px 20px; background: #fafafa; border-radius: 12px; transition: 0.2s;
+:root {
+    --bg: #ffffff;
+    --text: #1a1a1a;
+    --accent: #9b59b6; /* Màu tím trí tuệ */
+    --soft-gray: #f8f9fa;
+    --success: #2ecc71;
 }
-.trade-card:hover { transform: scale(1.01); background: #fdfdfd; }
-.trade-card .info strong { display: block; font-size: 0.9rem; }
-.trade-card .info small { font-size: 0.7rem; opacity: 0.5; }
-.trade-card .price { font-family: 'Courier New', monospace; font-weight: bold; color: var(--accent); }
 
-.btn-trade { 
-    background: #1a1a1a; color: white; border: none; padding: 8px 20px; 
-    border-radius: 6px; font-size: 10px; cursor: pointer; font-weight: bold;
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, sans-serif;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
 }
-.btn-trade.red { background: #e74c3c; }
+
+.container {
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+}
+
+/* Header & Assets */
+.logo-text { font-weight: 200; letter-spacing: 8px; font-size: 1.2rem; margin-bottom: 10px; }
+.logo-text span { font-weight: 800; color: var(--accent); }
+.glow-text {
+    font-size: 3.5rem; font-weight: 100; margin: 20px 0;
+    background: linear-gradient(45deg, #2d3436, var(--accent));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.sub-label { font-size: 0.7rem; opacity: 0.5; letter-spacing: 1px; text-transform: uppercase; }
+
+/* Section Styling */
+section {
+    margin-top: 40px;
+    padding: 25px;
+    background: var(--soft-gray);
+    border-radius: 20px;
+    text-align: left;
+}
+
+h3 { font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 20px; color: var(--accent); text-align: center; }
+
+/* Nobel Factory Form */
+.form-group input, .form-group textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    font-size: 13px;
+    box-sizing: border-box; /* Quan trọng để không bị tràn */
+}
+
+textarea { height: 80px; font-family: 'Courier New', monospace; resize: none; }
+
+.btn-main {
+    width: 100%;
+    background: var(--text);
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-main:hover { background: var(--accent); transform: translateY(-2px); }
+
+/* Marketplace & Leaderboard */
+.trade-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+.info strong { display: block; font-size: 0.9rem; }
+.info small { font-size: 0.7rem; opacity: 0.4; }
+.price { font-weight: bold; color: var(--accent); font-family: 'Courier New', monospace; }
+
+.btn-trade {
+    background: var(--text);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.leaderboard-mini { margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px; }
+.rank-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    font-size: 0.85rem;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.rank-item span { color: var(--accent); font-weight: bold; margin-right: 10px; }
