@@ -1,40 +1,18 @@
-:root { --bg: #ffffff; --line: #f0f0f0; --text: #000000; --accent: #9b59b6; }
-body { 
-    background: var(--bg);
-    background-image: linear-gradient(90deg, var(--line) 1px, transparent 1px);
-    background-size: 30px 100%;
-    color: var(--text);
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    margin: 0; padding: 20px;
-}
-.container { max-width: 500px; margin: 0 auto; background: white; padding: 30px; box-shadow: 0 0 50px rgba(0,0,0,0.1); border: 2px solid #000; }
-.logo-text { letter-spacing: 8px; font-weight: 100; text-transform: uppercase; border-bottom: 2px solid #000; text-align: center; }
+:root { --accent: #9b59b6; }
+body { background: #fff; font-family: sans-serif; margin: 0; padding: 20px; color: #000; }
+.container { max-width: 450px; margin: 0 auto; border: 2px solid #000; padding: 20px; box-shadow: 10px 10px 0 #eee; }
+.logo-text { text-align: center; letter-spacing: 5px; border-bottom: 2px solid #000; padding-bottom: 10px; }
 .logo-text span { font-weight: 900; }
-.glow-text { font-size: 3rem; font-weight: 900; text-align: center; margin: 15px 0; letter-spacing: -2px; }
-.sub-label { font-size: 9px; opacity: 0.5; text-align: center; letter-spacing: 2px; text-transform: uppercase; }
-
-/* Auth Buttons */
-.auth-banner { margin-bottom: 20px; display: flex; justify-content: center; }
-.btn-google { background: #fff; border: 1.5px solid #000; padding: 8px 15px; font-size: 10px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 8px; }
-.btn-logout { background: none; border: none; color: red; font-size: 9px; cursor: pointer; text-decoration: underline; }
-.user-badge { font-size: 10px; font-weight: 900; border: 1px solid #000; padding: 2px 5px; margin-right: 5px; }
-
-section { border: 1px solid #eee; padding: 20px; margin-top: 30px; position: relative; }
-h3 { font-size: 10px; letter-spacing: 2px; background: #000; color: #fff; display: inline-block; padding: 3px 10px; margin-top: -35px; position: absolute; left: 15px; }
-input, textarea { width: 100%; border: none; border-bottom: 1px solid #eee; background: #fafafa; padding: 12px; margin-bottom: 8px; font-size: 12px; box-sizing: border-box; outline: none; }
-
-.btn-main { background: #000; color: #fff; border: none; padding: 18px; width: 100%; cursor: pointer; font-weight: bold; letter-spacing: 3px; }
-.btn-scan { background: var(--accent); color: #fff; border: none; padding: 8px; width: 100%; font-size: 10px; cursor: pointer; margin-bottom: 15px; }
-.btn-trade { background: #000; color: #fff; border: none; padding: 8px 15px; font-size: 10px; cursor: pointer; }
-
-/* Bìa đỏ Card */
-.land-grid { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 10px; }
-.land-card {
-    width: 130px; height: 170px; border: 2px solid #000; padding: 15px;
-    background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: space-between;
-    transition: 0.3s; position: relative; overflow: hidden;
-}
-.land-card::after { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: repeating-linear-gradient(45deg, rgba(0,0,0,0.02) 0px, rgba(0,0,0,0.02) 2px, transparent 2px, transparent 8px); }
-.land-card:hover { transform: translateY(-5px); box-shadow: 10px 10px 0px #f1c40f; }
-.land-id { font-size: 11px; font-weight: 900; z-index: 1; }
-.land-qr { width: 60px; height: 60px; z-index: 1; }
+.glow-text { font-size: 2.5rem; font-weight: 900; text-align: center; margin: 15px 0; }
+.sub-label { font-size: 8px; text-align: center; opacity: 0.5; letter-spacing: 2px; }
+.auth-banner { margin: 15px 0; display: flex; justify-content: center; }
+.btn-google { background: #fff; border: 1px solid #000; padding: 8px 15px; font-size: 10px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: bold; }
+.btn-logout { color: red; font-size: 9px; border: none; background: none; cursor: pointer; text-decoration: underline; }
+.user-badge { font-size: 10px; font-weight: bold; border: 1px solid #000; padding: 2px 5px; margin-right: 5px; }
+section { border: 1px solid #000; padding: 15px; margin-top: 25px; position: relative; }
+h3 { font-size: 9px; background: #000; color: #fff; padding: 2px 8px; position: absolute; top: -10px; left: 10px; }
+input, textarea { width: 100%; border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; box-sizing: border-box; font-size: 11px; }
+.btn-main { width: 100%; background: #000; color: #fff; border: none; padding: 12px; cursor: pointer; font-weight: bold; }
+.btn-scan { background: var(--accent); color: #fff; border: none; width: 100%; padding: 8px; font-size: 10px; cursor: pointer; margin-bottom: 10px; }
+.land-grid { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 10px; }
+.land-card { width: 100px; height: 130px; border: 1px solid #000; padding: 10px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; font-size: 10px; text-align: center; }
