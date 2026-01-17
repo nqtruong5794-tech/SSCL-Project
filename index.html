@@ -15,25 +15,32 @@
             <p class="sub-label">Bảo chứng bởi Lực F (Hằng số 5794)</p>
         </header>
 
+        <section class="account-tools">
+            <h3>HỆ THỐNG HỒI SINH DI SẢN</h3>
+            <div style="display: flex; gap: 10px;">
+                <button onclick="exportToFile()" class="btn-alt">SAO LƯU (XUẤT FILE)</button>
+                <button onclick="importFromFile()" class="btn-alt" style="background: #e67e22;">HỒI SINH (NẠP FILE)</button>
+            </div>
+            <input type="file" id="fileInput" style="display:none" onchange="handleFileSelect(event)">
+        </section>
+
         <section class="nobel-factory">
             <h3>CỔNG NỘP HỒ SƠ NOBEL (V.n)</h3>
             <div class="form-group">
                 <input type="text" id="p-doi" placeholder="Dán link Zenodo hoặc ID tại đây...">
                 <button onclick="fetchFromZenodo()" class="btn-scan">QUÉT DỮ LIỆU ZENODO</button>
-                
                 <input type="text" id="p-title" placeholder="Tên dự án độc bản...">
                 <textarea id="p-latex" placeholder="Công thức LaTeX chuẩn Nobel ($...$)"></textarea>
                 <textarea id="p-code" placeholder="// YÊU CẦU: Hàm runSSCL() trả về 5794"></textarea>
-                
                 <button onclick="submitNobel()" class="btn-main">XÁC THỰC & TIẾN HÓA</button>
             </div>
         </section>
 
         <section class="marketplace">
-            <h3>THỊ TRƯỜNG ĐẤT NOBEL (1-CLICK)</h3>
+            <h3>THỊ TRƯỜNG ĐẤT NOBEL</h3>
             <div class="trade-grid">
                 <div class="trade-card">
-                    <div class="info"><strong>Lô Đất Kim Cương #5794</strong><br><small>Khai thác vàng ròng thụ động</small></div>
+                    <div class="info"><strong>Lô Đất Kim Cương #5794</strong><br><small>+0.5 IQ Power/s</small></div>
                     <div class="price">5,000 Xu</div>
                     <button onclick="instantTrade(5000, 'Lô #5794')" class="btn-trade">MUA</button>
                 </div>
@@ -42,8 +49,7 @@
 
         <section class="land-vault">
             <h3>KHO SỔ ĐỎ KIM CƯƠNG CỦA MASTER</h3>
-            <div id="owned-lands-list" class="land-grid">
-                </div>
+            <div id="owned-lands-list" class="land-grid"></div>
         </section>
 
         <section class="leaderboard">
