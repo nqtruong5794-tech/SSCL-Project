@@ -3,56 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SSCL SINGULARITY - MASTER TRUONG EDITION</title>
+    <title>SSCL SINGULARITY - MASTER TRUONG</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
-        :root { --gold: #f1c40f; --dark: #0a0a0a; --gray: #222; }
-        body { background: var(--dark); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 20px; text-align: center; }
-        .container { max-width: 600px; margin: auto; border: 1px solid var(--gray); padding: 20px; border-radius: 8px; }
-        .logo-text { font-size: 24px; font-weight: 900; letter-spacing: 3px; }
+        :root { --gold: #ffcc00; --dark: #000000; --gray: #1a1a1a; }
+        body { background: var(--dark); color: white; font-family: 'Arial', sans-serif; margin: 0; padding: 20px; text-align: center; }
+        .container { max-width: 600px; margin: auto; border: 1px solid #333; padding: 30px; border-radius: 15px; box-shadow: 0 0 30px rgba(255, 204, 0, 0.1); }
+        .user-badge { background: var(--gold); color: black; padding: 5px 15px; font-size: 11px; font-weight: 900; border-radius: 4px; text-transform: uppercase; margin-bottom: 20px; display: inline-block; }
+        .logo-text { font-size: 28px; font-weight: 900; letter-spacing: 5px; margin: 10px 0; }
         .logo-text span { color: var(--gold); }
-        .asset-vault { margin: 30px 0; padding: 20px; background: rgba(255,255,255,0.05); border-radius: 12px; }
-        .glow-text { font-size: 36px; font-weight: bold; color: var(--gold); text-shadow: 0 0 15px rgba(241, 196, 15, 0.5); font-family: monospace; }
-        .user-badge { background: var(--gold); color: black; padding: 8px 15px; font-size: 12px; font-weight: 900; border-radius: 4px; display: inline-block; margin-bottom: 10px; }
+        .glow-text { font-size: 42px; font-weight: bold; color: var(--gold); text-shadow: 0 0 20px rgba(255, 204, 0, 0.4); margin: 20px 0; }
         
-        .form-group { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
-        input, textarea { background: #1a1a1a; border: 1px solid var(--gray); color: white; padding: 12px; border-radius: 4px; }
-        button { background: white; color: black; border: none; padding: 12px; font-weight: bold; cursor: pointer; border-radius: 4px; transition: 0.3s; }
-        button:hover { background: var(--gold); transform: scale(1.02); }
+        .section-title { color: var(--gold); font-size: 16px; font-weight: bold; margin: 30px 0 15px; text-transform: uppercase; letter-spacing: 2px; }
+        .form-group { display: flex; flex-direction: column; gap: 12px; }
+        input, textarea { background: #111; border: 1px solid #333; color: white; padding: 15px; border-radius: 8px; font-size: 14px; transition: 0.3s; }
+        input:focus, textarea:focus { border-color: var(--gold); outline: none; background: #161616; }
         
-        .land-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
-        .land-card { background: #1a1a1a; padding: 10px; font-size: 10px; border: 1px solid var(--gray); }
-        canvas { margin-top: 5px; background: white; padding: 2px; }
+        button { background: white; color: black; border: none; padding: 15px; font-weight: 900; cursor: pointer; border-radius: 8px; text-transform: uppercase; transition: 0.3s; }
+        button:hover { background: var(--gold); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 204, 0, 0.3); }
+        .btn-main { background: var(--gold); margin-top: 10px; }
+        
+        .land-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
+        .land-card { background: #080808; padding: 15px; border: 1px solid #222; border-radius: 10px; transition: 0.3s; }
+        .land-card:hover { border-color: var(--gold); }
+        canvas { background: white; padding: 5px; border-radius: 4px; margin-top: 10px; }
     </style>
 </head>
 <body>
     <div class="container">
-        <header class="asset-vault">
-            <div class="user-badge">MASTER NGUYỄN QUỐC TRƯỜNG - SSCL CORE</div>
+        <header>
+            <div class="user-badge">Master Nguyễn Quốc Trường - SSCL Core</div>
             <h1 class="logo-text">SSCL <span>SINGULARITY</span></h1>
             <div id="xu-balance" class="glow-text">17101.18804164</div>
-            <p style="color: #666; font-size: 12px;">Hệ thống bảo mật chủ động ISOA-57 | 2026</p>
+            <p style="color: #555; font-size: 11px;">Hệ thống bảo vệ chủ động ISOA-57 | 2026</p>
         </header>
 
-        <section class="nobel-factory">
-            <h3 style="color: var(--gold);">🏛️ CỔNG TIẾN HÓA NOBEL</h3>
+        <section>
+            <div class="section-title">🏛️ Cổng tiến hóa Nobel</div>
             <div class="form-group">
-                <input type="text" id="p-doi" placeholder="Nhập ID Zenodo (Ví dụ: 18183046)">
-                <button onclick="fetchFromZenodo()">QUÉT DỮ LIỆU ZENODO</button>
+                <input type="text" id="p-doi" placeholder="Dán link hoặc ID Zenodo...">
+                <button onclick="fetchFromZenodo()" style="background: #fff;">Quét dữ liệu Zenodo</button>
                 <input type="text" id="p-title" placeholder="Tên công trình nghiên cứu...">
-                <textarea id="p-latex" rows="2" placeholder="Công thức LaTeX ($...$)"></textarea>
-                <textarea id="p-code" rows="3" placeholder="// Mã nguồn xác thực SSCL (Phải trả về 5794)"></textarea>
-                <button onclick="submitNobel()" style="background: var(--gold);">XÁC THỰC & ĐÚC 1000 XU</button>
+                <textarea id="p-latex" rows="2" placeholder="Công thức LaTeX chuẩn ($...$)"></textarea>
+                
+                <textarea id="p-code" rows="4" style="font-family: monospace; color: #00ff00;" placeholder="// Nhập mã xác thực SSCL tại đây&#10;// Ví dụ: function runSSCL() { return 5794; }"></textarea>
+                
+                <button onclick="submitNobel()" class="btn-main">Xác thực & Đúc 1000 Xu</button>
             </div>
         </section>
 
-        <section class="marketplace" style="margin-top: 30px; border-top: 1px solid var(--gray); padding-top: 20px;">
-            <h3>🛒 MUA ĐẤT NOBEL (5,000 Xu)</h3>
-            <button onclick="instantTrade(5000)" style="width: 100%;">MUA LÔ ĐẤT MỚI</button>
+        <section>
+            <div class="section-title">🛒 Mua đất Nobel (5,000 Xu)</div>
+            <button onclick="instantTrade(5000)" style="width: 100%;">Mua lô đất mới</button>
         </section>
 
-        <section class="land-vault">
-            <h3 style="color: var(--gold);">📜 KHO SỔ ĐỎ QR</h3>
+        <section>
+            <div class="section-title">📜 Kho sổ đỏ QR</div>
             <div id="owned-lands-list" class="land-grid"></div>
         </section>
     </div>
