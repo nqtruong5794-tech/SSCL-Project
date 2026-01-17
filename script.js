@@ -1,95 +1,31 @@
-let xuBalance = parseFloat(localStorage.getItem('xuBalance')) || 0;
-let projects = JSON.parse(localStorage.getItem('sscl_projects')) || [];
-
-function updateUI() {
-    document.getElementById('xu-balance').innerText = xuBalance.toFixed(8); // Tăng độ chính xác
-    localStorage.setItem('xuBalance', xuBalance);
-    localStorage.setItem('sscl_projects', JSON.stringify(projects));
-    renderLeaderboard();
-}
-
-// LÕI KHAI THÁC VÀNG RÒNG (PASSIVE MINING)
-setInterval(() => {
-    let totalIQPower = 0;
-    projects.forEach(p => {
-        // Mỗi dự án đóng góp vào công suất khai thác dựa trên Version và DOI
-        let pPower = (p.version * 0.1) + (p.doi ? 0.5 : 0);
-        totalIQPower += pPower;
-    });
-    
-    if (totalIQPower > 0) {
-        // Xu tự sinh ra dựa trên tổng trí tuệ đã nạp vào hệ thống
-        xuBalance += (totalIQPower * 0.000001); 
-        updateUI();
-    }
-}, 3000); // 3 giây sinh lời một lần
+// ... (Giữ lại các phần cũ)
 
 function submitNobel() {
-    const title = document.getElementById('p-title').value.trim();
-    const latex = document.getElementById('p-latex').value.trim();
-    const code = document.getElementById('p-code').value.trim();
-    const doi = document.getElementById('p-doi').value.trim();
+    const title = document.getElementById('p-title').value;
+    const code = document.getElementById('p-code').value;
+    const latex = document.getElementById('p-latex').value;
 
-    if (!title || !latex.includes('$') || !code.includes('runSSCL')) {
-        alert("ISOA-V2026: Hồ sơ chưa đủ chuẩn Thiên tài.");
-        return;
-    }
-
-    const isDuplicate = projects.some(p => (p.code === code && p.title !== title) || (doi !== "" && p.doi === doi && p.title !== title));
-    if (isDuplicate) {
-        alert("BẢN QUYỀN: Ý tưởng DNA đã tồn tại!");
-        return;
-    }
+    // PHÂN TÍCH ĐỘ PHỦ LĨNH VỰC (Ví dụ: Tìm các từ khóa toán học/sinh học/tài chính)
+    const domains = ['force', 'bio', 'finance', 'quantum', 'cycle'];
+    let coverage = domains.filter(d => code.includes(d) || latex.includes(d)).length || 1;
+    
+    // Thuật toán thưởng theo cấp số nhân: Hệ số n^2
+    const multiplier = Math.pow(coverage, 2);
 
     try {
         const runner = new Function(code + "; return runSSCL();");
         if (runner() === 5794) {
-            const existingIdx = projects.findIndex(p => p.title === title);
-            let version = 1, reward = 1000;
-
-            if (existingIdx !== -1) {
-                version = projects[existingIdx].version + 1;
-                projects.splice(existingIdx, 1);
-                reward = 500;
-            }
-            if (doi !== "") reward += 5000;
-
-            projects.unshift({ title, doi, code, version, timestamp: new Date().toLocaleString() });
-            if (projects.length > 57) projects.pop();
-
+            let reward = 1000 * multiplier; // Càng đa cực càng nhiều tiền
             xuBalance += reward;
+            
+            projects.unshift({
+                title, version: 1, 
+                iqPower: (0.1 * multiplier), // Tăng công suất đào
+                timestamp: new Date().toLocaleTimeString()
+            });
+            
             updateUI();
-            alert(`KÍCH HOẠT ĐỘNG CƠ V.${version}: Công suất khai thác đã tăng!`);
-        } else {
-            alert("LOẠI: Code không khớp hằng số 5794.");
+            alert(`THIÊN TÀI ĐA CỰC! Độ phủ: ${coverage} lĩnh vực. Hệ số thưởng x${multiplier}.`);
         }
-    } catch (e) {
-        alert("LỖI THỰC THI: " + e.message);
-    }
+    } catch(e) { alert("Lỗi logic toán học."); }
 }
-
-function renderLeaderboard() {
-    const list = document.getElementById('dynamic-ranks');
-    list.innerHTML = projects.map(p => {
-        let iqPower = ((p.version * 0.1) + (p.doi ? 0.5 : 0)).toFixed(2);
-        return `
-            <div class="rank-item">
-                <strong>Thiên Tài ${p.title} <span class="version-badge">V.${p.version}</span></strong>
-                <div style="color:#2ecc71; font-size:10px; margin-top:4px;">⚡ Công suất: ${iqPower} IQ/sec</div>
-                ${p.doi ? `<a href="${p.doi}" target="_blank" class="doi-tag">📄 DOI: Research Link</a>` : ""}
-            </div>
-        `;
-    }).join('');
-}
-
-function instantTrade(price, item) {
-    if (xuBalance >= price) {
-        xuBalance -= price;
-        updateUI();
-        alert(`SỞ HỮU THÀNH CÔNG: ${item} đang khai thác cho bạn.`);
-    } else {
-        alert("KHÔNG ĐỦ XU TRƯỜNG.");
-    }
-}
-
-updateUI();
