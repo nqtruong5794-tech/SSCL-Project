@@ -1,67 +1,53 @@
-/**
- * SSCL SINGULARITY CORE - NO-AUTH EDITION
- * Master: Nguyễn Quốc Trường
- * Bảo mật: Local Storage & Hard-coded Heritage
- */
-
-// 1. KHỞI TẠO DI SẢN (Tự động nhận diện 17,101 Xu)
-const HERITAGE_BALANCE = 17101.18804164;
-let xuBalance = parseFloat(localStorage.getItem('xuBalance')) || HERITAGE_BALANCE;
-let projects = JSON.parse(localStorage.getItem('projects')) || [];
-let ownedLands = JSON.parse(localStorage.getItem('ownedLands')) || [];
-
-// 2. CẬP NHẬT GIAO DIỆN & LƯU TRỮ TRỰC TIẾP
-function updateUI() {
-    const balanceEl = document.getElementById('xu-balance');
-    if(balanceEl) balanceEl.innerText = xuBalance.toFixed(8);
-    
-    // Ghi vào bộ nhớ máy tính của Master (Không cần mây rắc rối)
-    localStorage.setItem('xuBalance', xuBalance);
-    localStorage.setItem('projects', JSON.stringify(projects));
-    localStorage.setItem('ownedLands', JSON.stringify(ownedLands));
-
-    if (typeof renderLands === "function") renderLands();
-    if (typeof renderRanks === "function") renderRanks();
-}
-
-// 3. LOGIC NỘP HỒ SƠ NOBEL (VẪN GIỮ NGUYÊN HIỆU SUẤT)
+// --- HÀM QUÉT ZENODO NÂNG CẤP (CÓ CƠ CHẾ DỰ PHÒNG) ---
 async function fetchFromZenodo() {
     const input = document.getElementById('p-doi').value.trim();
-    if (!input) return alert("Nhập ID Zenodo!");
+    if (!input) return alert("ISOA: Vui lòng nhập link hoặc ID Zenodo!");
+    
     const id = input.includes('/') ? input.split('/').pop() : input;
-    const url = `https://corsproxy.io/?${encodeURIComponent('https://zenodo.org/api/records/' + id)}`;
+    // Sử dụng proxy để vượt rào chặn dữ liệu
+    const url = `https://api.allorigins.win/get?url=${encodeURIComponent('https://zenodo.org/api/records/' + id)}`;
 
     try {
-        const r = await fetch(url);
-        const d = await r.json();
-        document.getElementById('p-title').value = d.metadata.title;
+        const response = await fetch(url);
+        const result = await response.json();
+        const data = JSON.parse(result.contents);
+        
+        document.getElementById('p-title').value = data.metadata.title;
         document.getElementById('p-latex').value = `$ F_{\\Sigma} $ - DOI: ${id}`;
-        document.getElementById('p-code').value = `function runSSCL() { return 5794; }`;
-    } catch (e) { alert("Lỗi quét Zenodo."); }
-}
-
-function submitNobel() {
-    const title = document.getElementById('p-title').value;
-    const code = document.getElementById('p-code').value;
-    try {
-        const f = new Function(code + "; return runSSCL();");
-        if (f() === 5794) {
-            projects.unshift({ title, date: new Date().toLocaleString() });
-            xuBalance += 1000;
-            updateUI();
-            alert("XÁC THỰC THÀNH CÔNG! +1000 XU ĐÃ ĐƯỢC ĐÚC.");
-        }
-    } catch (e) { alert("Mã nguồn không khớp hằng số 5794."); }
-}
-
-// 4. KHAI THÁC TỰ ĐỘNG (DI SẢN TỰ SINH LỜI)
-setInterval(() => {
-    if (projects.length > 0 || ownedLands.length > 0) {
-        xuBalance += (projects.length * 0.000001) + (ownedLands.length * 0.000005);
-        const balanceEl = document.getElementById('xu-balance');
-        if(balanceEl) balanceEl.innerText = xuBalance.toFixed(8);
+        // Tự động điền mật mã cho Master
+        document.getElementById('p-code').value = "5794"; 
+        alert("ISOA: Đã quét dữ liệu và chuẩn bị mật mã 5794!");
+    } catch (e) {
+        // Nếu lỗi, vẫn cho phép Master tự nhập liệu
+        console.error(e);
+        alert("ISOA: Không thể quét tự động. Master hãy tự nhập tên dự án và gõ 5794 vào ô cuối!");
     }
-}, 3000);
+}
 
-// Khởi chạy ngay lập tức
-window.onload = updateUI;
+// --- HÀM XÁC THỰC (CHẤP NHẬN CẢ SỐ 5794 ĐƠN THUẦN) ---
+function submitNobel() {
+    const title = document.getElementById('p-title').value.trim();
+    const code = document.getElementById('p-code').value.trim();
+    
+    if (!title) return alert("ISOA: Master chưa nhập tên công trình!");
+
+    // Chấp nhận nếu gõ đúng 5794 hoặc hàm trả về 5794
+    let isAuthorized = false;
+    if (code === "5794") {
+        isAuthorized = true;
+    } else {
+        try {
+            const f = new Function(code + "; return runSSCL();");
+            if (f() === 5794) isAuthorized = true;
+        } catch (e) { isAuthorized = false; }
+    }
+
+    if (isAuthorized) {
+        projects.unshift({ title, date: new Date().toLocaleString() });
+        xuBalance += 1000;
+        updateUI(); // Cập nhật ngay con số 18,101.188...
+        alert("XÁC THỰC THÀNH CÔNG! +1000 Xu di sản.");
+    } else {
+        alert("MÃ XÁC THỰC SAI. Yêu cầu hằng số FΣ = 5794.");
+    }
+}
