@@ -6,6 +6,7 @@ body {
     color: var(--text);
     font-family: 'Helvetica Neue', Arial, sans-serif;
     margin: 0; padding: 40px 20px;
+    line-height: 1.6;
 }
 .container { max-width: 500px; margin: 0 auto; background: white; padding: 40px; box-shadow: 0 0 100px rgba(0,0,0,0.05); }
 .logo-text { letter-spacing: 12px; font-weight: 100; text-transform: uppercase; border-bottom: 2px solid #000; padding-bottom: 10px; text-align: center; }
@@ -19,4 +20,65 @@ input, textarea { width: 100%; border: none; border-bottom: 1px solid #eee; back
 .btn-scan { background: var(--accent); color: #fff; border: none; padding: 10px; width: 100%; font-size: 10px; cursor: pointer; margin-bottom: 20px; }
 .btn-trade { background: #000; color: #fff; border: none; padding: 8px 15px; font-size: 10px; cursor: pointer; }
 .rank-item { padding: 15px 0; border-bottom: 1px solid #eee; }
-.version-badge { background: #000; color: #fff; padding: 2px 5px; font-size: 9px; }
+
+/* Styles cho Bìa Đỏ Kim Cương Độc Bản */
+.land-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 20px; }
+
+.land-card {
+    width: 140px; height: 180px; 
+    border: 1px solid #000; 
+    background: linear-gradient(135deg, #f0f0f0 0%, #ffffff 100%); /* Màu nền gradient sáng */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
+    display: flex; flex-direction: column; justify-content: space-between; align-items: center;
+    padding: 15px;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.land-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    border-color: var(--accent);
+}
+
+.land-card::before { /* Hiệu ứng sọc code */
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: repeating-linear-gradient(
+        45deg,
+        rgba(0,0,0,0.05) 0px,
+        rgba(0,0,0,0.05) 2px,
+        transparent 2px,
+        transparent 10px
+    );
+    animation: shimmer 15s linear infinite; /* Chuyển động lấp lánh */
+    opacity: 0.3;
+}
+
+@keyframes shimmer {
+    0% { transform: rotate(0deg) translateX(0%); }
+    100% { transform: rotate(0deg) translateX(100%); }
+}
+
+.land-id { 
+    font-size: 14px; font-weight: bold; 
+    color: #000; 
+    letter-spacing: 1px;
+    z-index: 1; /* Đảm bảo chữ nằm trên hiệu ứng sọc */
+}
+
+.land-master {
+    font-size: 10px; 
+    opacity: 0.8; 
+    margin-top: 5px;
+    z-index: 1;
+}
+
+.land-qr-placeholder {
+    width: 60px; height: 60px; 
+    background: #000; /* Thay bằng QR
