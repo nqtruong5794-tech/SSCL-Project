@@ -1,35 +1,39 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SSCL SINGULARITY - MASTER TRUONG</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <header class="asset-vault">
             <h1 class="logo-text">SSCL <span>SINGULARITY</span></h1>
+            
+            <div id="auth-section" class="auth-banner">
+                <button id="btn-login-google" onclick="loginWithGoogle()" class="btn-google">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="16">
+                    ĐĂNG NHẬP GOOGLE
+                </button>
+                <div id="user-info" style="display:none;">
+                    <span id="user-name" class="user-badge"></span> 
+                    <button onclick="logout()" class="btn-logout">THOÁT</button>
+                </div>
+            </div>
+
             <div id="xu-balance" class="glow-text">0.00000000</div>
             <p class="sub-label">Bảo chứng bởi Lực F (Hằng số 5794)</p>
         </header>
 
-        <section class="account-tools">
-            <h3>HỆ THỐNG HỒI SINH DI SẢN</h3>
-            <div style="display: flex; gap: 10px;">
-                <button onclick="exportToFile()" class="btn-alt">SAO LƯU (XUẤT FILE)</button>
-                <button onclick="importFromFile()" class="btn-alt" style="background: #e67e22;">HỒI SINH (NẠP FILE)</button>
-            </div>
-            <input type="file" id="fileInput" style="display:none" onchange="handleFileSelect(event)">
-        </section>
-
         <section class="nobel-factory">
             <h3>CỔNG NỘP HỒ SƠ NOBEL (V.n)</h3>
             <div class="form-group">
-                <input type="text" id="p-doi" placeholder="Dán link Zenodo hoặc ID tại đây...">
+                <input type="text" id="p-doi" placeholder="Dán ID Zenodo (VD: 18183046)...">
                 <button onclick="fetchFromZenodo()" class="btn-scan">QUÉT DỮ LIỆU ZENODO</button>
                 <input type="text" id="p-title" placeholder="Tên dự án độc bản...">
                 <textarea id="p-latex" placeholder="Công thức LaTeX chuẩn Nobel ($...$)"></textarea>
@@ -42,7 +46,7 @@
             <h3>THỊ TRƯỜNG ĐẤT NOBEL</h3>
             <div class="trade-grid">
                 <div class="trade-card">
-                    <div class="info"><strong>Lô Đất Kim Cương #5794</strong><br><small>+0.5 IQ Power/s</small></div>
+                    <div class="info"><strong>Lô Đất Kim Cương #5794</strong><br><small>Tăng tốc khai thác vàng ròng</small></div>
                     <div class="price">5,000 Xu</div>
                     <button onclick="instantTrade(5000, 'Lô #5794')" class="btn-trade">MUA</button>
                 </div>
@@ -50,7 +54,7 @@
         </section>
 
         <section class="land-vault">
-            <h3>KHO SỔ ĐỎ KIM CƯƠNG CỦA MASTER</h3>
+            <h3>KHO SỔ ĐỎ KIM CƯƠNG</h3>
             <div id="owned-lands-list" class="land-grid"></div>
         </section>
 
@@ -62,4 +66,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
