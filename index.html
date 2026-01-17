@@ -3,11 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SSCL SINGULARITY - MASTER TRUONG</title>
+    <title>SSCL SINGULARITY - PIN ACCESS</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,12 +13,11 @@
             <h1 class="logo-text">SSCL <span>SINGULARITY</span></h1>
             
             <div id="auth-section" class="auth-banner">
-                <button id="btn-login-google" onclick="loginWithGoogle()" class="btn-google">
-                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="16">
-                    ĐĂNG NHẬP GOOGLE
+                <button id="btn-login-pin" onclick="loginWithPin()" class="btn-main-pin">
+                    🔐 NHẬP MÃ PIN 4 SỐ
                 </button>
                 <div id="user-info" style="display:none;">
-                    <span id="user-name" class="user-badge"></span> 
+                    <span class="user-badge">MASTER TRUONG</span> 
                     <button onclick="logout()" class="btn-logout">THOÁT</button>
                 </div>
             </div>
@@ -33,7 +29,7 @@
         <section class="nobel-factory">
             <h3>CỔNG NỘP HỒ SƠ NOBEL (V.n)</h3>
             <div class="form-group">
-                <input type="text" id="p-doi" placeholder="Dán ID Zenodo (VD: 18183046)...">
+                <input type="text" id="p-doi" placeholder="ID Zenodo (Ví dụ: 18183046)">
                 <button onclick="fetchFromZenodo()" class="btn-scan">QUÉT DỮ LIỆU ZENODO</button>
                 <input type="text" id="p-title" placeholder="Tên dự án độc bản...">
                 <textarea id="p-latex" placeholder="Công thức LaTeX chuẩn Nobel ($...$)"></textarea>
@@ -63,6 +59,7 @@
             <div id="dynamic-ranks"></div>
         </section>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
