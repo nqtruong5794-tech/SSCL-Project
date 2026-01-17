@@ -1,29 +1,41 @@
-const masterWallet = "0xcE9caBC82bce143601E0A097fF15A69385610B88";
-let xuBalance = 0;
+let xuBalance = parseFloat(localStorage.getItem('xuBalance')) || 0;
+const btnDemo = document.getElementById('btn-demo');
+const timerDisplay = document.getElementById('cooldown-timer');
 
-// Giả lập Lực F thu gom Xu Trường
-setInterval(() => {
-    xuBalance += 0.000157; // Tích tiểu thành đại
-    document.getElementById('xu-balance').innerText = xuBalance.toFixed(6);
-}, 2000);
+// Hiển thị số dư ban đầu
+document.getElementById('xu-balance').innerText = xuBalance.toFixed(6);
 
 function playDemo() {
-    alert("CHẾ ĐỘ CHƠI THỬ KÍCH HOẠT: Bạn đang bước vào Framework Trường Core. Lực F đang thu gom tài sản cho bạn...");
-    document.getElementById('seed').style.background = "radial-gradient(circle, #fff, #8e44ad)";
-    xuBalance += 100; // Tặng vốn ảo để trải nghiệm cảm giác giàu sang
-    alert("Hệ thống ISOA-V2026 đã tặng bạn 100 Xu Trường làm vốn tích lũy!");
+    // 1. Cơ chế Cooldown (Chống lạm phát)
+    btnDemo.disabled = true;
+    let seconds = 60;
+    
+    // 2. Hiệu ứng Mầm sống phát sáng (Thôi miên)
+    document.getElementById('seed').style.boxShadow = "0 0 60px rgba(155, 89, 182, 0.4)";
+    
+    // 3. Tặng thưởng dựa trên Lực F
+    let bonus = 100 + (Math.random() * 10);
+    xuBalance += bonus;
+    localStorage.setItem('xuBalance', xuBalance);
+    document.getElementById('xu-balance').innerText = xuBalance.toFixed(6);
+
+    const countdown = setInterval(() => {
+        seconds--;
+        timerDisplay.innerText = `SYNCING LỰC F: ${seconds}s`;
+        if (seconds <= 0) {
+            clearInterval(countdown);
+            btnDemo.disabled = false;
+            timerDisplay.innerText = "READY TO SYNC";
+            document.getElementById('seed').style.boxShadow = "0 10px 40px rgba(0,0,0,0.05)";
+        }
+    }, 1000);
 }
 
-async function connectAndBuy() {
-    // Giữ nguyên logic thanh toán ETH như cũ nhưng dùng masterWallet đã lưu
-    if (typeof window.ethereum !== 'undefined') {
-        try {
-            await window.ethereum.request({ method: 'eth_requestAccounts' });
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const signer = provider.getSigner();
-            const tx = { to: masterWallet, value: ethers.utils.parseEther("0.01") };
-            alert("Đang kết nối cổng thanh toán thật...");
-            await signer.sendTransaction(tx);
-        } catch (e) { alert("Lỗi: " + e.message); }
-    } else { alert("Vui lòng cài đặt ví Web3!"); }
+function submitProject() {
+    const link = document.getElementById('scientific-link').value;
+    if(link.includes('zenodo.org') || link.includes('orcid.org')) {
+        alert("ISOA-V2026 XÁC THỰC: Dự án khoa học tiềm năng! Đang chờ hội đồng Trường Core đánh giá để cấp Xu Trường.");
+    } else {
+        alert("Vui lòng gửi link từ Zenodo hoặc ORCID để chứng minh trí tuệ.");
+    }
 }
