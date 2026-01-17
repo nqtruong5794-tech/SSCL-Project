@@ -3,42 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FΣ SINGULARITY - THE NOBEL FRONTIER</title>
+    <title>SSCL PURE WHITE - THE TRUONG CORE ACADEMY</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
 </head>
 <body>
-    <div id="isoa-overlay"></div>
-    <header>
-        <div class="logo">FΣ SINGULARITY</div>
-        <div class="status-bar">ISOA-57: ACTIVE | SSCL CORE: RUNNING</div>
-    </header>
+    <div id="isoa-shield">🛡️ ISOA-V2026 ACTIVE PROTECTION</div>
+    
+    <main class="container">
+        <header>
+            <h1 class="logo-text">SSCL <span>SINGULARITY</span></h1>
+            <p class="subtitle">Trường Core: Đào tạo Thiên tài & Ươm mầm Nobel</p>
+        </header>
 
-    <main>
-        <div id="canvas-container">
-            <div class="core-energy"></div>
-        </div>
+        <section class="visualizer">
+            <div class="white-seed" id="seed"></div>
+        </section>
 
-        <section class="dashboard">
-            <h1>ĐỊNH LUẬT CHU KỲ MẦM SỐNG (SSCL)</h1>
-            <p class="tagline">Kiến tạo tương lai từ Lực Kì Dị của Trường (FΣ - Truong)</p>
-            
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <span>LỢI NHUẬN TIỀM NĂNG</span>
-                    <div id="profit-counter">0.000000 ETH</div>
-                </div>
-                <div class="stat-card">
-                    <span>ĐỊA CHỈ MASTER</span>
-                    <div class="wallet-address">0xcE9...0B88</div>
-                </div>
-            </div>
-
-            <div class="action-zone">
-                <button onclick="connectAndBuy()" class="btn-primary">KÍCH HOẠT DÒNG TIỀN (0.01 ETH)</button>
-                <p class="security-note">🛡️ Protected by ISOA-V2026 Active Defense</p>
+        <section class="stats">
+            <div class="stat-box">
+                <label>XU TRƯỜNG TÍCH LŨY (LỰC F)</label>
+                <div id="xu-balance">0.000000</div>
             </div>
         </section>
+
+        <div class="action-grid">
+            <button onclick="playDemo()" class="btn-demo">CHƠI THỬ (DEMO)</button>
+            <button onclick="connectAndBuy()" class="btn-real">MUA ĐẤT VÀNG (0.01 ETH)</button>
+        </div>
+
+        <footer class="academy-info">
+            <h3>Học Viện Tài Năng Trẻ</h3>
+            <p>Hệ thống Framework ISOA đang âm thầm xây dựng tương lai...</p>
+        </footer>
     </main>
 
     <script src="script.js"></script>
