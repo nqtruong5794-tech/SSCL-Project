@@ -1,22 +1,23 @@
 /**
  * SSCL SINGULARITY CORE - ISOA-V2026
  * Master: Nguyễn Quốc Trường
- * Trạng thái: Đã kết nối Đám mây Firebase
+ * Cấu hình được trích xuất từ: image_b80f4d.jpg
  */
 
-// 1. CẤU HÌNH THẬT CỦA MASTER TRƯỜNG
+// 1. THÔNG TIN CẤU HÌNH THẬT CỦA MASTER
 const firebaseConfig = {
-    apiKey: "AIzaSyACWqxCz_kaZu6kyQF0jfe4-LVzlb4K57Q",
-    authDomain: "sscl-project.firebaseapp.com",
-    databaseURL: "https://sscl-project-default-rtdb.firebaseio.com", // Kiểm tra lại link này trong Realtime Database
-    projectId: "sscl-project",
-    storageBucket: "sscl-project.firebasestorage.app",
-    messagingSenderId: "268359558237",
-    appId: "1:268359558237:web:b79a2fbf3a86e134e319b4",
-    measurementId: "G-40G0RGF0DH"
+  apiKey: "AIzaSyACWqxCz_kaZu6kyQF0jfe4-LVzlb4K57Q",
+  authDomain: "sscl-project.firebaseapp.com",
+  projectId: "sscl-project",
+  storageBucket: "sscl-project.firebasestorage.app",
+  messagingSenderId: "268359558237",
+  appId: "1:268359558237:web:b79a2fbf3a86e134e319b4",
+  measurementId: "G-40G0RGF0DH",
+  // Master lưu ý: Dòng dưới đây là địa chỉ kho lưu trữ 17,101 Xu
+  databaseURL: "https://sscl-project-default-rtdb.asia-southeast1.firebasedatabase.app"
 };
 
-// Khởi tạo Firebase
+// Khởi tạo Firebase Đám Mây
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
@@ -25,19 +26,19 @@ const auth = firebase.auth();
 const db = firebase.database();
 const provider = new firebase.auth.GoogleAuthProvider();
 
-// Biến lưu trữ tài sản
+// Tài sản hiện có
 let xuBalance = 0;
 let projects = [];
 let ownedLands = [];
 
-// --- HỆ THỐNG ĐĂNG NHẬP GOOGLE ---
+// --- HÀM ĐĂNG NHẬP GOOGLE ---
 function loginWithGoogle() {
     auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
     .then(() => {
         return auth.signInWithPopup(provider);
     })
     .catch((error) => {
-        alert("ISOA: Lỗi xác thực - " + error.message);
+        alert("ISOA: Cổng xác thực báo lỗi - " + error.message);
     });
 }
 
@@ -48,7 +49,7 @@ function logout() {
     });
 }
 
-// --- TỰ ĐỘNG NHẬN DIỆN & TẢI DI SẢN ---
+// --- TỰ ĐỘNG NHẬN DIỆN MASTER & TẢI DỮ LIỆU ---
 auth.onAuthStateChanged((user) => {
     const btnGoogle = document.getElementById('btn-login-google');
     const userInfo = document.getElementById('user-info');
@@ -57,11 +58,11 @@ auth.onAuthStateChanged((user) => {
     if (user) {
         if(btnGoogle) btnGoogle.style.display = 'none';
         if(userInfo) userInfo.style.display = 'block';
-        if(userName) userName.innerText = user.displayName.split(' ').pop().toUpperCase();
+        if(userName) userName.innerText = user.displayName.toUpperCase();
 
-        console.log("ISOA: Đã nhận diện Master " + user.email);
+        console.log("ISOA: Master Trường đã trực tuyến: " + user.email);
         
-        // Tải 17,101 Xu từ Firebase
+        // Truy vấn kho lưu trữ 17,101 Xu
         db.ref('users/' + user.uid).once('value').then((snapshot) => {
             const data = snapshot.val();
             if (data) {
@@ -77,29 +78,32 @@ auth.onAuthStateChanged((user) => {
     }
 });
 
-// --- ĐỒNG BỘ ĐÁM MÂY (SILENT SYNC) ---
+// --- ĐỒNG BỘ DỮ LIỆU LÊN MÂY VĨNH VIỄN ---
 function sync() {
     if (auth.currentUser) {
         db.ref('users/' + auth.currentUser.uid).set({
             xuBalance: xuBalance,
             projects: projects,
             ownedLands: ownedLands,
-            lastSync: firebase.database.ServerValue.TIMESTAMP
+            lastUpdate: firebase.database.ServerValue.TIMESTAMP
         });
     }
 }
 
 function updateUI() {
-    document.getElementById('xu-balance').innerText = xuBalance.toFixed(8);
-    renderLands();
-    renderRanks();
-    sync(); // Lưu ngay khi có biến động
+    const balanceEl = document.getElementById('xu-balance');
+    if(balanceEl) balanceEl.innerText = xuBalance.toFixed(8);
+    
+    if (typeof renderLands === "function") renderLands();
+    if (typeof renderRanks === "function") renderRanks();
+    
+    sync(); // Tự động khóa dữ liệu mỗi khi có thay đổi
 }
 
 // --- LOGIC NOBEL & ZENODO ---
 async function fetchFromZenodo() {
     const input = document.getElementById('p-doi').value.trim();
-    if (!input) return alert("Nhập ID Zenodo!");
+    if (!input) return alert("Vui lòng nhập ID Zenodo!");
     const id = input.includes('/') ? input.split('/').pop() : input;
     const url = `https://corsproxy.io/?${encodeURIComponent('https://zenodo.org/api/records/' + id)}`;
 
@@ -109,8 +113,8 @@ async function fetchFromZenodo() {
         document.getElementById('p-title').value = d.metadata.title;
         document.getElementById('p-latex').value = `$ F_{\\Sigma} $ - DOI: ${id}`;
         document.getElementById('p-code').value = `function runSSCL() { return 5794; }`;
-        alert("ISOA: Quét thành công!");
-    } catch (e) { alert("Lỗi Zenodo."); }
+        alert("ISOA: Quét dữ liệu Zenodo thành công!");
+    } catch (e) { alert("Lỗi kết nối Zenodo."); }
 }
 
 function submitNobel() {
@@ -122,53 +126,19 @@ function submitNobel() {
             projects.unshift({ title, date: new Date().toLocaleString() });
             xuBalance += 1000;
             updateUI();
-            alert("XÁC THỰC THÀNH CÔNG! +1000 Xu.");
+            alert("XÁC THỰC THÀNH CÔNG! Đã cộng 1000 Xu vào quỹ Đám mây.");
         }
-    } catch (e) { alert("Code không chuẩn SSCL."); }
-}
-
-// --- THỊ TRƯỜNG ĐẤT ĐAI ---
-function instantTrade(price, item) {
-    if (xuBalance >= price) {
-        xuBalance -= price;
-        ownedLands.push({ 
-            id: `L${ownedLands.length + 1}`, 
-            date: new Date().toLocaleDateString() 
-        });
-        updateUI();
-        alert("CHÚC MỪNG! Bìa đỏ đã được ghi vào Đám mây.");
-    } else alert("Không đủ Xu.");
-}
-
-// --- HIỂN THỊ DỮ LIỆU ---
-function renderLands() {
-    const l = document.getElementById('owned-lands-list');
-    if (!l) return;
-    l.innerHTML = ownedLands.map(d => `
-        <div class="land-card">
-            <b>${d.id}</b>
-            <div id="qr-${d.id}"></div>
-            <br>${d.date}
-        </div>
-    `).join('');
-    ownedLands.forEach(d => {
-        new QRCode(document.getElementById(`qr-${d.id}`), { text: d.id, width: 40, height: 40 });
-    });
-}
-
-function renderRanks() {
-    const r = document.getElementById('dynamic-ranks');
-    if (!r) return;
-    r.innerHTML = projects.map(p => `<div style="font-size:10px; border-bottom:1px solid #eee;">• ${p.title}</div>`).join('');
+    } catch (e) { alert("Lỗi: Code không trả về hằng số SSCL 5794."); }
 }
 
 // --- KHAI THÁC TỰ ĐỘNG (3S/LẦN) ---
 setInterval(() => {
-    if (auth.currentUser && (projects.length > 0 || ownedLands.length > 0)) {
-        xuBalance += (projects.length * 0.000001) + (ownedLands.length * 0.000005);
-        document.getElementById('xu-balance').innerText = xuBalance.toFixed(8);
-        // Không sync liên tục để tránh tốn băng thông, chỉ cập nhật UI
+    if (auth.currentUser && projects.length > 0) {
+        xuBalance += (projects.length * 0.000001);
+        const balanceEl = document.getElementById('xu-balance');
+        if(balanceEl) balanceEl.innerText = xuBalance.toFixed(8);
     }
 }, 3000);
 
+// Khởi động giao diện
 updateUI();
