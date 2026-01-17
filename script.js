@@ -1,144 +1,94 @@
 /**
- * SSCL SINGULARITY CORE - ISOA-V2026
+ * SSCL SINGULARITY CORE - PIN ACCESS
  * Master: Nguyễn Quốc Trường
- * Cấu hình được trích xuất từ: image_b80f4d.jpg
  */
 
-// 1. THÔNG TIN CẤU HÌNH THẬT CỦA MASTER
-const firebaseConfig = {
-  apiKey: "AIzaSyACWqxCz_kaZu6kyQF0jfe4-LVzlb4K57Q",
-  authDomain: "sscl-project.firebaseapp.com",
-  projectId: "sscl-project",
-  storageBucket: "sscl-project.firebasestorage.app",
-  messagingSenderId: "268359558237",
-  appId: "1:268359558237:web:b79a2fbf3a86e134e319b4",
-  measurementId: "G-40G0RGF0DH",
-  // Master lưu ý: Dòng dưới đây là địa chỉ kho lưu trữ 17,101 Xu
-  databaseURL: "https://sscl-project-default-rtdb.asia-southeast1.firebasedatabase.app"
-};
+// Chìa khóa vạn năng của Master
+const MASTER_PIN = "5794"; 
+const PROJECT_URL = "https://sscl-project-default-rtdb.asia-southeast1.firebasedatabase.app";
 
-// Khởi tạo Firebase Đám Mây
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-}
+let xuBalance = parseFloat(localStorage.getItem('xuBalance')) || 0;
+let projects = JSON.parse(localStorage.getItem('projects')) || [];
+let isLoggedIn = false;
 
-const auth = firebase.auth();
-const db = firebase.database();
-const provider = new firebase.auth.GoogleAuthProvider();
-
-// Tài sản hiện có
-let xuBalance = 0;
-let projects = [];
-let ownedLands = [];
-
-// --- HÀM ĐĂNG NHẬP GOOGLE ---
-function loginWithGoogle() {
-    auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-    .then(() => {
-        return auth.signInWithPopup(provider);
-    })
-    .catch((error) => {
-        alert("ISOA: Cổng xác thực báo lỗi - " + error.message);
-    });
+// --- HÀM ĐĂNG NHẬP 4 SỐ ---
+function loginWithPin() {
+    const pinInput = prompt("ISOA: Nhập mã định danh 4 số (PIN):");
+    
+    if (pinInput === MASTER_PIN) {
+        isLoggedIn = true;
+        document.getElementById('auth-section').innerHTML = `<span class="user-badge">MASTER TRUONG</span> <button onclick="logout()" class="btn-logout">THOÁT</button>`;
+        alert("XÁC THỰC THIÊN TÀI THÀNH CÔNG!");
+        loadFromCloud(); // Tải dữ liệu từ mây ngay khi vào
+    } else {
+        alert("MÃ PIN SAI. TRUY CẬP BỊ TỪ CHỐI.");
+    }
 }
 
 function logout() {
-    auth.signOut().then(() => {
-        localStorage.clear();
-        location.reload();
-    });
+    isLoggedIn = false;
+    location.reload();
 }
 
-// --- TỰ ĐỘNG NHẬN DIỆN MASTER & TẢI DỮ LIỆU ---
-auth.onAuthStateChanged((user) => {
-    const btnGoogle = document.getElementById('btn-login-google');
-    const userInfo = document.getElementById('user-info');
-    const userName = document.getElementById('user-name');
+// --- TẢI & LƯU ĐÁM MÂY (DÙNG FETCH - KHÔNG CẦN SDK PHỨC TẠP) ---
+async function loadFromCloud() {
+    try {
+        const response = await fetch(`${PROJECT_URL}/data.json`);
+        const data = await response.json();
+        if (data) {
+            xuBalance = data.xuBalance || xuBalance;
+            projects = data.projects || projects;
+            updateUI();
+        }
+    } catch (e) { console.log("Lần đầu khởi tạo mây..."); }
+}
 
-    if (user) {
-        if(btnGoogle) btnGoogle.style.display = 'none';
-        if(userInfo) userInfo.style.display = 'block';
-        if(userName) userName.innerText = user.displayName.toUpperCase();
+async function syncToCloud() {
+    if (!isLoggedIn) return;
+    const data = { xuBalance, projects, lastUpdate: Date.now() };
+    
+    // Lưu vào máy Master trước
+    localStorage.setItem('xuBalance', xuBalance);
+    localStorage.setItem('projects', JSON.stringify(projects));
 
-        console.log("ISOA: Master Trường đã trực tuyến: " + user.email);
-        
-        // Truy vấn kho lưu trữ 17,101 Xu
-        db.ref('users/' + user.uid).once('value').then((snapshot) => {
-            const data = snapshot.val();
-            if (data) {
-                xuBalance = data.xuBalance || 0;
-                projects = data.projects || [];
-                ownedLands = data.ownedLands || [];
-                updateUI();
-            }
+    // Đẩy lên mây Firebase qua REST API (Cực kỳ đơn giản)
+    try {
+        await fetch(`${PROJECT_URL}/data.json`, {
+            method: 'PUT',
+            body: JSON.stringify(data)
         });
-    } else {
-        if(btnGoogle) btnGoogle.style.display = 'flex';
-        if(userInfo) userInfo.style.display = 'none';
-    }
-});
-
-// --- ĐỒNG BỘ DỮ LIỆU LÊN MÂY VĨNH VIỄN ---
-function sync() {
-    if (auth.currentUser) {
-        db.ref('users/' + auth.currentUser.uid).set({
-            xuBalance: xuBalance,
-            projects: projects,
-            ownedLands: ownedLands,
-            lastUpdate: firebase.database.ServerValue.TIMESTAMP
-        });
-    }
+    } catch (e) { console.error("Lỗi đồng bộ."); }
 }
 
 function updateUI() {
-    const balanceEl = document.getElementById('xu-balance');
-    if(balanceEl) balanceEl.innerText = xuBalance.toFixed(8);
-    
-    if (typeof renderLands === "function") renderLands();
-    if (typeof renderRanks === "function") renderRanks();
-    
-    sync(); // Tự động khóa dữ liệu mỗi khi có thay đổi
+    document.getElementById('xu-balance').innerText = xuBalance.toFixed(8);
+    syncToCloud();
 }
 
-// --- LOGIC NOBEL & ZENODO ---
-async function fetchFromZenodo() {
-    const input = document.getElementById('p-doi').value.trim();
-    if (!input) return alert("Vui lòng nhập ID Zenodo!");
-    const id = input.includes('/') ? input.split('/').pop() : input;
-    const url = `https://corsproxy.io/?${encodeURIComponent('https://zenodo.org/api/records/' + id)}`;
-
-    try {
-        const r = await fetch(url);
-        const d = await r.json();
-        document.getElementById('p-title').value = d.metadata.title;
-        document.getElementById('p-latex').value = `$ F_{\\Sigma} $ - DOI: ${id}`;
-        document.getElementById('p-code').value = `function runSSCL() { return 5794; }`;
-        alert("ISOA: Quét dữ liệu Zenodo thành công!");
-    } catch (e) { alert("Lỗi kết nối Zenodo."); }
-}
-
+// --- LOGIC NOBEL ---
 function submitNobel() {
+    if (!isLoggedIn) return alert("Vui lòng đăng nhập mã PIN 4 số!");
+    
     const title = document.getElementById('p-title').value;
     const code = document.getElementById('p-code').value;
+    
     try {
         const f = new Function(code + "; return runSSCL();");
         if (f() === 5794) {
             projects.unshift({ title, date: new Date().toLocaleString() });
             xuBalance += 1000;
             updateUI();
-            alert("XÁC THỰC THÀNH CÔNG! Đã cộng 1000 Xu vào quỹ Đám mây.");
+            alert("XÁC THỰC THÀNH CÔNG! Đã cộng 1000 Xu.");
         }
-    } catch (e) { alert("Lỗi: Code không trả về hằng số SSCL 5794."); }
+    } catch (e) { alert("Code không chuẩn SSCL."); }
 }
 
-// --- KHAI THÁC TỰ ĐỘNG (3S/LẦN) ---
+// Tự động đào xu
 setInterval(() => {
-    if (auth.currentUser && projects.length > 0) {
+    if (isLoggedIn && projects.length > 0) {
         xuBalance += (projects.length * 0.000001);
-        const balanceEl = document.getElementById('xu-balance');
-        if(balanceEl) balanceEl.innerText = xuBalance.toFixed(8);
+        document.getElementById('xu-balance').innerText = xuBalance.toFixed(8);
     }
 }, 3000);
 
-// Khởi động giao diện
 updateUI();
