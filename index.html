@@ -15,12 +15,13 @@
         </header>
 
         <section class="nobel-factory">
-            <h3>CỔNG NỘP HỒ SƠ NOBEL</h3>
+            <h3>CÔNG XƯỞNG NOBEL (V.n)</h3>
             <div class="form-group">
-                <input type="text" id="p-title" placeholder="Tên dự án thiên tài...">
-                <textarea id="p-latex" placeholder="Công thức LaTeX ($...$)"></textarea>
-                <textarea id="p-code" placeholder="// YÊU CẦU: Phải có hàm runSSCL() trả về 5794"></textarea>
-                <button onclick="submitNobel()" class="btn-main">XÁC THỰC & NHẬN XU</button>
+                <input type="text" id="p-title" placeholder="Tên dự án (Trùng tên để Update Version)...">
+                <textarea id="p-latex" placeholder="Công thức LaTeX chuẩn Nobel ($...$)"></textarea>
+                <textarea id="p-code" placeholder="// YÊU CẦU: Hàm runSSCL() trả về 5794"></textarea>
+                <input type="text" id="p-doi" placeholder="Link Zenodo DOI (Thưởng +5000 Xu)">
+                <button onclick="submitNobel()" class="btn-main">XÁC THỰC & TIẾN HÓA</button>
             </div>
         </section>
 
@@ -28,19 +29,17 @@
             <h3>THỊ TRƯỜNG ĐẤT NOBEL (1-CLICK)</h3>
             <div class="trade-grid">
                 <div class="trade-card">
-                    <div class="info"><strong>Lô Đất Nobel #5794</strong><small>Hạng: Thiên Tài</small></div>
+                    <div class="info"><strong>Lô Đất Kim Cương #5794</strong><small>Tăng giá theo DOI</small></div>
                     <div class="price">5,000 Xu</div>
                     <button onclick="instantTrade(5000, 'Lô #5794')" class="btn-trade">MUA</button>
                 </div>
-                <button onclick="alert('Ví ủng hộ: 0xcE9...0B88')" class="btn-trade red" style="width:100%; margin-top:10px;">ỦNG HỘ QUỸ NOBEL</button>
             </div>
         </section>
 
         <section class="leaderboard">
-            <h3>BẢNG THIÊN TÀI HỆ THỐNG</h3>
+            <h3>BẢNG THIÊN TÀI (NÉN N GÓC)</h3>
             <div id="dynamic-ranks">
-                <div class="rank-item"><span>01</span> <strong>Nguyễn Quốc Trường</strong> <small>Founder</small></div>
-            </div>
+                </div>
         </section>
     </div>
     <script src="script.js"></script>
