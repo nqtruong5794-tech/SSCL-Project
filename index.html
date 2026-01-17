@@ -1,20 +1,36 @@
-<section class="marketplace-pure">
-    <div class="market-header">
-        <h3>THỊ TRƯỜNG THIÊN TÀI (1-CLICK)</h3>
-        <p>Mục đích: Tích lũy tài sản Nobel. Khan hiếm: 5794 Lô.</p>
-    </div>
-    
-    <div class="trade-grid">
-        <div class="trade-card system">
-            <div class="info"><strong>Lô Đất #57</strong> <small>Hệ thống SSCL</small></div>
-            <div class="price">5.000 Xu</div>
-            <button onclick="instantTrade('system', 5000, 'Lô #57')" class="btn-trade">MUA</button>
+<main class="container">
+    <section class="asset-vault">
+        <h1 class="logo-text">SSCL <span>SINGULARITY</span></h1>
+        <div id="xu-balance" class="glow-text">0.000000</div>
+        <p class="sub-label">Vốn Trí Tuệ Được Bảo Chứng Bởi Lực F</p>
+    </section>
+
+    <section class="nobel-factory">
+        <h3>CỔNG NỘP HỒ SƠ NOBEL A-Z</h3>
+        <div class="form-group">
+            <input type="text" id="p-title" placeholder="Tên dự án đột phá...">
+            <textarea id="p-latex" placeholder="Công thức LaTeX chuẩn ($...$)"></textarea>
+            <textarea id="p-code" placeholder="// Dán Code Framework (Phải chạy được!)"></textarea>
+            <input type="text" id="p-doi" placeholder="Link Zenodo/ORCID DOI">
+            <button onclick="submitNobel()" class="btn-main">XÁC THỰC & KHỞI TẠO XU</button>
+        </div>
+    </section>
+
+    <section class="marketplace-pure">
+        <h3>THỊ TRƯỜNG ĐẤT NOBEL (1-CLICK)</h3>
+        <div id="market-items">
+            <div class="trade-card">
+                <div class="info"><strong>Lô Đất Nobel #5794</strong> <small>Hạng: Thiên Tài</small></div>
+                <div class="price">5.000 Xu</div>
+                <button onclick="instantTrade(5000, '#5794')" class="btn-trade">MUA</button>
+            </div>
         </div>
         
-        <div class="trade-card charity">
-            <div class="info"><strong>Quỹ Nobel</strong> <small>Vốn nghiên cứu</small></div>
-            <div class="price">Tùy tâm</div>
-            <button onclick="donateFund()" class="btn-trade red">ỦNG HỘ</button>
+        <div id="vinh-danh-list" class="leaderboard-mini">
+            <h4>BẢNG THIÊN TÀI HỆ THỐNG</h4>
+            <div id="dynamic-ranks">
+                <div class="rank-item"><span>01</span> <strong>Thiên Tài Quốc Trường</strong> <small>Founder</small></div>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
+</main>
