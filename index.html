@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SSCL SINGULARITY - MASTER TRUONG</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -20,9 +21,9 @@
                 <input type="text" id="p-doi" placeholder="Dán link Zenodo DOI tại đây...">
                 <button onclick="fetchFromZenodo()" class="btn-scan">QUÉT DỮ LIỆU ZENODO</button>
                 
-                <input type="text" id="p-title" placeholder="Tên dự án...">
-                <textarea id="p-latex" placeholder="Công thức LaTeX ($...$)"></textarea>
-                <textarea id="p-code" placeholder="// Hàm runSSCL() trả về 5794"></textarea>
+                <input type="text" id="p-title" placeholder="Tên dự án độc bản...">
+                <textarea id="p-latex" placeholder="Công thức LaTeX chuẩn Nobel ($...$)"></textarea>
+                <textarea id="p-code" placeholder="// YÊU CẦU: Hàm runSSCL() trả về 5794"></textarea>
                 
                 <button onclick="submitNobel()" class="btn-main">XÁC THỰC & TIẾN HÓA</button>
             </div>
@@ -32,7 +33,7 @@
             <h3>THỊ TRƯỜNG ĐẤT NOBEL (1-CLICK)</h3>
             <div class="trade-grid">
                 <div class="trade-card">
-                    <div class="info"><strong>Lô Đất Kim Cương #5794</strong><small>Khai thác vàng ròng</small></div>
+                    <div class="info"><strong>Lô Đất Kim Cương #5794</strong><br><small>Khai thác vàng ròng thụ động</small></div>
                     <div class="price">5,000 Xu</div>
                     <button onclick="instantTrade(5000, 'Lô #5794')" class="btn-trade">MUA</button>
                 </div>
@@ -40,10 +41,12 @@
         </section>
 
         <section class="leaderboard">
-            <h3>BẢNG THIÊN TÀI (ĐA CỰC)</h3>
-            <div id="dynamic-ranks"></div>
+            <h3>BẢNG THIÊN TÀI & SỔ CÁI QR</h3>
+            <div id="dynamic-ranks">
+                </div>
         </section>
     </div>
+    
     <script src="script.js"></script>
 </body>
 </html>
