@@ -1,25 +1,20 @@
-<section class="genius-section">
-    <div class="tab-container">
-        <button onclick="switchTab('vinh-danh')" class="tab-btn active">BẢNG THIÊN TÀI</button>
-        <button onclick="switchTab('sang-tao')" class="tab-btn">SÁNG TẠO NOBEL (A-Z)</button>
+<section class="marketplace-pure">
+    <div class="market-header">
+        <h3>THỊ TRƯỜNG THIÊN TÀI (1-CLICK)</h3>
+        <p>Mục đích: Tích lũy tài sản Nobel. Khan hiếm: 5794 Lô.</p>
     </div>
-
-    <div id="vinh-danh" class="tab-content active">
-        <div class="leaderboard-mini">
-            <div class="rank-item"><span>01</span> <strong>Thiên Tài Quốc Trường</strong> <small>1.2M Downloads</small></div>
-            <div class="rank-item"><span>02</span> <strong>Thiên Tài ISOA</strong> <small>800K Downloads</small></div>
-            <div id="dynamic-ranks"></div>
+    
+    <div class="trade-grid">
+        <div class="trade-card system">
+            <div class="info"><strong>Lô Đất #57</strong> <small>Hệ thống SSCL</small></div>
+            <div class="price">5.000 Xu</div>
+            <button onclick="instantTrade('system', 5000, 'Lô #57')" class="btn-trade">MUA</button>
         </div>
-    </div>
-
-    <div id="sang-tao" class="tab-content">
-        <div class="nobel-form">
-            <p class="form-hint">Dùng AI triển khai theo lõi SSCL & ISOA-V2026. Code phải chạy!</p>
-            <input type="text" id="project-title" placeholder="Tên Dự Án Thiên Tài...">
-            <textarea id="latex-core" placeholder="Công thức LaTeX ($...$)"></textarea>
-            <textarea id="code-core" placeholder="// Dán Code Framework tại đây..."></textarea>
-            <input type="text" id="zenodo-link" placeholder="Link Zenodo DOI (nếu có)">
-            <button onclick="verifyGenius()" class="btn-glow">XÁC THỰC & NHẬN XU</button>
+        
+        <div class="trade-card charity">
+            <div class="info"><strong>Quỹ Nobel</strong> <small>Vốn nghiên cứu</small></div>
+            <div class="price">Tùy tâm</div>
+            <button onclick="donateFund()" class="btn-trade red">ỦNG HỘ</button>
         </div>
     </div>
 </section>
