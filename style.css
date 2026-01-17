@@ -1,89 +1,83 @@
 :root {
-    --primary: #8a2be2; /* Tím vương giả */
-    --neon: #00f3ff; /* Xanh cực quang */
-    --bg: #050505;
+    --bg: #ffffff;
+    --text: #2d3436;
+    --accent: #8e44ad;
+    --shadow: rgba(0,0,0,0.05);
 }
 
 body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', sans-serif;
     margin: 0;
-    background: var(--bg);
-    color: white;
-    font-family: 'Segoe UI', Roboto, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
     overflow: hidden;
 }
 
-header {
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 1px solid rgba(138, 43, 226, 0.3);
+#isoa-shield {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    opacity: 0.3; /* 7 phần chìm */
 }
 
-.logo {
-    font-weight: bold;
-    letter-spacing: 5px;
-    color: var(--neon);
-    text-shadow: 0 0 10px var(--neon);
-}
-
-.dashboard {
+.container {
     text-align: center;
-    margin-top: 50px;
+    max-width: 600px;
+    padding: 40px;
 }
 
-h1 {
-    font-size: 3rem;
-    background: linear-gradient(90deg, #fff, var(--primary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+.logo-text {
+    font-weight: 300;
+    letter-spacing: 10px;
+    margin-bottom: 0;
 }
 
-.stat-card {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 20px;
-    border-radius: 15px;
-    border: 1px solid var(--primary);
-    display: inline-block;
-    margin: 10px;
-    min-width: 200px;
+.logo-text span {
+    font-weight: 800;
+    color: var(--accent);
 }
 
-#profit-counter {
-    font-size: 1.5rem;
-    color: var(--neon);
+.white-seed {
+    width: 120px;
+    height: 120px;
+    background: #fff;
+    margin: 50px auto;
+    border-radius: 50%;
+    box-shadow: 0 0 50px var(--shadow), inset 0 0 20px var(--shadow);
+    animation: breathe 4s ease-in-out infinite;
 }
 
-.btn-primary {
-    background: linear-gradient(45deg, var(--primary), #4b0082);
-    border: none;
-    color: white;
-    padding: 20px 40px;
-    font-size: 1.2rem;
-    border-radius: 50px;
+@keyframes breathe {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 30px var(--shadow); }
+    50% { transform: scale(1.1); box-shadow: 0 0 60px rgba(142, 68, 173, 0.1); }
+}
+
+.stat-box {
+    margin: 30px 0;
+}
+
+#xu-balance {
+    font-size: 2.5rem;
+    font-weight: 200;
+}
+
+button {
+    border: 1px solid #eee;
+    background: white;
+    padding: 15px 30px;
+    border-radius: 5px;
     cursor: pointer;
-    box-shadow: 0 0 20px var(--primary);
-    transition: 0.3s;
+    transition: 0.4s;
+    margin: 10px;
     font-weight: bold;
 }
 
-.btn-primary:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 40px var(--neon);
-}
-
-/* Hiệu ứng lõi mầm sống */
-.core-energy {
-    width: 200px;
-    height: 200px;
-    margin: 0 auto;
-    border-radius: 50%;
-    background: radial-gradient(circle, var(--neon), var(--primary), transparent);
-    box-shadow: 0 0 100px var(--primary);
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); opacity: 0.8; }
-    50% { transform: scale(1.2); opacity: 1; }
-    100% { transform: scale(1); opacity: 0.8; }
-}
+.btn-demo:hover { background: #f9f9f9; border-color: #ddd; }
+.btn-real { border-color: var(--accent); color: var(--accent); }
+.btn-real:hover { background: var(--accent); color: white; }
