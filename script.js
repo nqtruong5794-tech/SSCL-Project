@@ -1,15 +1,16 @@
-// --- MASTER TRƯỜNG DÁN CONFIG THẬT VÀO ĐÂY ---
+// --- THÔNG TIN CẤU HÌNH THẬT CỦA MASTER ---
 const firebaseConfig = {
-  apiKey: "DÁN_API_KEY_THẬT_TẠI_ĐÂY",
-  authDomain: "your-project.firebaseapp.com",
-  databaseURL: "https://your-project.firebaseio.com",
-  projectId: "your-project",
-  storageBucket: "your-project.appspot.com",
-  messagingSenderId: "...",
-  appId: "..."
+  apiKey: "AIzaSyACWqxCz_kaZu6kyQF0jfe4-LVzlb4K57Q",
+  authDomain: "sscl-project.firebaseapp.com",
+  databaseURL: "https://sscl-project-default-rtdb.firebaseio.com", // Lưu ý: Master kiểm tra link này trong Realtime Database
+  projectId: "sscl-project",
+  storageBucket: "sscl-project.firebasestorage.app",
+  messagingSenderId: "268359558237",
+  appId: "1:268359558237:web:b79a2fbf3a86e134e319b4",
+  measurementId: "G-40G0RGF0DH"
 };
-// ----------------------------------------------
 
+// Khởi tạo Firebase (Sử dụng bản Compat để chạy trên GitHub Pages)
 if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.database();
@@ -19,60 +20,54 @@ let xuBalance = 0;
 let projects = [];
 let ownedLands = [];
 
+// --- CỔNG ĐĂNG NHẬP GOOGLE ---
 function loginWithGoogle() {
     auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
     .then(() => auth.signInWithPopup(provider))
-    .catch(e => alert("Lỗi xác thực: " + e.message));
+    .catch(e => alert("Lỗi ISOA: " + e.message));
 }
 
 function logout() { auth.signOut().then(() => location.reload()); }
 
+// --- TỰ ĐỘNG NHẬN DIỆN VÀ TẢI DỮ LIỆU ---
 auth.onAuthStateChanged(user => {
     if (user) {
         document.getElementById('btn-login-google').style.display = 'none';
         document.getElementById('user-info').style.display = 'block';
-        document.getElementById('user-name').innerText = user.displayName.split(' ').pop().toUpperCase();
-        loadData(user.uid);
+        document.getElementById('user-name').innerText = user.displayName.toUpperCase();
+        
+        // Tải 17,101 Xu từ mây về
+        db.ref('users/' + user.uid).once('value').then(s => {
+            const data = s.val();
+            if (data) {
+                xuBalance = data.xuBalance || 0;
+                projects = data.projects || [];
+                ownedLands = data.ownedLands || [];
+                updateUI();
+            }
+        });
     }
 });
 
-function loadData(uid) {
-    db.ref('users/' + uid).once('value').then(s => {
-        const d = s.val();
-        if (d) {
-            xuBalance = d.xuBalance || 0;
-            projects = d.projects || [];
-            ownedLands = d.ownedLands || [];
-            updateUI();
-        }
-    });
-}
-
 function sync() {
     if (auth.currentUser) {
-        db.ref('users/' + auth.currentUser.uid).set({ xuBalance, projects, ownedLands });
+        db.ref('users/' + auth.currentUser.uid).set({ 
+            xuBalance, 
+            projects, 
+            ownedLands,
+            lastSeen: firebase.database.ServerValue.TIMESTAMP 
+        });
     }
 }
 
 function updateUI() {
     document.getElementById('xu-balance').innerText = xuBalance.toFixed(8);
-    renderLands();
-    renderRanks();
-    sync();
+    if (typeof renderLands === "function") renderLands();
+    if (typeof renderRanks === "function") renderRanks();
+    sync(); // Tự động lưu lên mây
 }
 
-async function fetchFromZenodo() {
-    const id = document.getElementById('p-doi').value.trim().split('/').pop();
-    const url = `https://corsproxy.io/?${encodeURIComponent('https://zenodo.org/api/records/' + id)}`;
-    try {
-        const r = await fetch(url);
-        const d = await r.json();
-        document.getElementById('p-title').value = d.metadata.title;
-        document.getElementById('p-latex').value = `$ F_{\\Sigma} $ - DOI: ${id}`;
-        document.getElementById('p-code').value = `function runSSCL() { return 5794; }`;
-    } catch (e) { alert("Lỗi Zenodo."); }
-}
-
+// --- CÁC HÀM LOGIC SSCL ---
 function submitNobel() {
     const title = document.getElementById('p-title').value;
     const code = document.getElementById('p-code').value;
@@ -82,31 +77,14 @@ function submitNobel() {
             projects.unshift({ title, date: new Date().toLocaleString() });
             xuBalance += 1000;
             updateUI();
-            alert("XÁC THỰC THÀNH CÔNG!");
+            alert("XÁC THỰC THÀNH CÔNG! ĐÃ ĐỒNG BỘ ĐÁM MÂY.");
         }
-    } catch (e) { alert("Code sai."); }
+    } catch (e) { alert("Code không chuẩn."); }
 }
 
-function instantTrade(p, i) {
-    if (xuBalance >= p) {
-        xuBalance -= p;
-        ownedLands.push({ id: `L${ownedLands.length + 1}`, date: new Date().toLocaleDateString() });
-        updateUI();
-    } else alert("Không đủ Xu.");
-}
-
-function renderLands() {
-    const l = document.getElementById('owned-lands-list');
-    l.innerHTML = ownedLands.map(d => `<div class="land-card"><b>${d.id}</b><div id="qr-${d.id}"></div><br>${d.date}</div>`).join('');
-    ownedLands.forEach(d => new QRCode(document.getElementById(`qr-${d.id}`), { text: d.id, width: 40, height: 40 }));
-}
-
-function renderRanks() {
-    document.getElementById('dynamic-ranks').innerHTML = projects.map(p => `<div style="font-size:10px; margin-bottom:5px;">• ${p.title}</div>`).join('');
-}
-
+// Tự động đào xu mỗi 3 giây
 setInterval(() => {
-    if (auth.currentUser && (projects.length || ownedLands.length)) {
+    if (auth.currentUser && (projects.length > 0 || ownedLands.length > 0)) {
         xuBalance += (projects.length * 0.000001) + (ownedLands.length * 0.000005);
         document.getElementById('xu-balance').innerText = xuBalance.toFixed(8);
     }
