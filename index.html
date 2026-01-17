@@ -1,52 +1,25 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SSCL SINGULARITY 2.0 - MASTER TRUONG</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
-</head>
-<body>
-    <div id="isoa-shield">🛡️ ISOA-V2026: ACTIVE PROTECTION [CONNECTED]</div>
-    
-    <main class="container">
-        <header>
-            <h1 class="logo-text">SSCL <span>SINGULARITY</span></h1>
-            <p class="tagline">Định Luật Chu Kỳ Mầm Sống - Tham vọng Nobel 2026</p>
-        </header>
+<section class="genius-section">
+    <div class="tab-container">
+        <button onclick="switchTab('vinh-danh')" class="tab-btn active">BẢNG THIÊN TÀI</button>
+        <button onclick="switchTab('sang-tao')" class="tab-btn">SÁNG TẠO NOBEL (A-Z)</button>
+    </div>
 
-        <section class="visualizer">
-            <div class="white-seed" id="seed"></div>
-            <div id="cooldown-timer">READY TO SYNC</div>
-        </section>
-
-        <section class="asset-vault">
-            <div class="stat-group">
-                <label>XU TRƯỜNG TÍCH LŨY</label>
-                <div id="xu-balance" class="glow-text">0.000000</div>
-                <p class="sub-label">Backed by FΣ Asset Vault (Airdrops/Free-claims)</p>
-            </div>
-        </section>
-
-        <div class="control-panel">
-            <button id="btn-demo" onclick="playDemo()" class="btn-main">KÍCH HOẠT LỰC F (CHƠI THỬ)</button>
+    <div id="vinh-danh" class="tab-content active">
+        <div class="leaderboard-mini">
+            <div class="rank-item"><span>01</span> <strong>Thiên Tài Quốc Trường</strong> <small>1.2M Downloads</small></div>
+            <div class="rank-item"><span>02</span> <strong>Thiên Tài ISOA</strong> <small>800K Downloads</small></div>
+            <div id="dynamic-ranks"></div>
         </div>
+    </div>
 
-        <section class="academy-gateway">
-            <div class="gateway-box">
-                <h4>CỔNG HỒ SƠ KHOA HỌC</h4>
-                <p>Nộp dự án (Zenodo/ORCID) để nhận thưởng Xu Trường</p>
-                <input type="text" placeholder="Dán link dự án của bạn tại đây..." id="scientific-link">
-                <button onclick="submitProject()" class="btn-small">XÁC THỰC TRÍ TUỆ</button>
-            </div>
-        </section>
-
-        <footer class="system-status">
-            <span id="traffic-status">TRAFFIC: NORMAL</span> | <span id="security-level">SEC: MAXIMUM</span>
-        </footer>
-    </main>
-
-    <script src="script.js"></script>
-</body>
-</html>
+    <div id="sang-tao" class="tab-content">
+        <div class="nobel-form">
+            <p class="form-hint">Dùng AI triển khai theo lõi SSCL & ISOA-V2026. Code phải chạy!</p>
+            <input type="text" id="project-title" placeholder="Tên Dự Án Thiên Tài...">
+            <textarea id="latex-core" placeholder="Công thức LaTeX ($...$)"></textarea>
+            <textarea id="code-core" placeholder="// Dán Code Framework tại đây..."></textarea>
+            <input type="text" id="zenodo-link" placeholder="Link Zenodo DOI (nếu có)">
+            <button onclick="verifyGenius()" class="btn-glow">XÁC THỰC & NHẬN XU</button>
+        </div>
+    </div>
+</section>
